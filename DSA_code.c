@@ -486,10 +486,6 @@ void Display_Queues() {
 }*/
 
 
-/* =========================================
-   DISPLAY PACKETS
-   ========================================= */
-
 void Display_Packets() {
 
     if (Packet_Count == 0) {
