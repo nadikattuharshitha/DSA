@@ -447,9 +447,9 @@ void Display_Queues() {
 }
 
 
-/*  BASIC CONGESTION CHECK*/
+//  BASIC CONGESTION CHECK
 
-/*void Check_Congestion() {
+void Check_Congestion() {
 
     int count;
 
@@ -483,7 +483,7 @@ void Display_Queues() {
 
             printf("NORMAL\n");
     }
-}*/
+}
 
 
 void Display_Packets() {
@@ -509,7 +509,7 @@ void Display_Packets() {
 }
 
  //GENERATE DATA FOR AI
-   /*
+   
 void Generate_Traffic_Data() {
 
     FILE *fp;
@@ -553,12 +553,16 @@ void Generate_Traffic_Data() {
 
     printf("\nTraffic data saved to network_data.csv\n");
 }
-*/
+
 
 // RUN PYTHON AI 
 
 void Run_AI_Prediction() {
-   // system("python prediction.py");
+    Generate_Traffic_Data();
+
+    printf("\nStarting AI congestion prediction...\n");
+
+    system("python prediction.py");
 }
 int main() {
 
