@@ -31,11 +31,6 @@ int Network[MAX_ROUTERS][MAX_ROUTERS];
 int Router_Count = 0;
 int Packet_Count = 0;
 
-
-/* =========================================
-   INITIALIZE NETWORK
-   ========================================= */
-
 void Initialising_Network() {
 
     int i, j;
@@ -51,11 +46,6 @@ void Initialising_Network() {
         }
     }
 }
-
-
-/* =========================================
-   CREATE ROUTER
-   ========================================= */
 
 void Creating_Router() {
 
@@ -78,11 +68,6 @@ void Creating_Router() {
 
     Router_Count++;
 }
-
-
-/* =========================================
-   DISPLAY ROUTERS
-   ========================================= */
 
 void Display_Routers() {
 
@@ -112,12 +97,6 @@ void Display_Routers() {
                QUEUE_SIZE);
     }
 }
-
-
-/* =========================================
-   ADD CONNECTION
-   ========================================= */
-
 void Add_Connection() {
 
     int source;
@@ -145,10 +124,7 @@ void Add_Connection() {
     printf("Enter destination router ID: ");
     scanf("%d", &destination);
 
-    if (source < 0 ||
-        source >= Router_Count ||
-        destination < 0 ||
-        destination >= Router_Count) {
+    if (source < 0 ||  source >= Router_Count ||   destination < 0 || destination >= Router_Count) {
 
         printf("Invalid router ID.\n");
         return;
@@ -178,11 +154,6 @@ void Add_Connection() {
            routers[destination].name);
 }
 
-
-/* =========================================
-   DISPLAY NETWORK
-   ========================================= */
-
 void Display_Network() {
 
     int i, j;
@@ -193,7 +164,7 @@ void Display_Network() {
         return;
     }
 
-    printf("\n--------- NETWORK ---------\n\n");
+    printf("\n--- NETWORK ----\n\n");
 
     printf("     ");
 
@@ -218,14 +189,10 @@ void Display_Network() {
     }
 }
 
-
-/* =========================================
-   ENQUEUE PACKET
-   ========================================= */
-
 int Enqueue_Packet(int routerID, struct Packet p) {
 
-    if (routers[routerID].rear >= QUEUE_SIZE - 1) {
+    if (routers[routerID].rear >= QUEUE_SIZE - 1)
+    {
 
         printf("\nQueue of Router %c is full.\n",
                routers[routerID].name);
@@ -242,17 +209,11 @@ int Enqueue_Packet(int routerID, struct Packet p) {
     return 1;
 }
 
-
-/* =========================================
-   DEQUEUE PACKET
-   ========================================= */
-
 struct Packet Dequeue_Packet(int routerID) {
 
     struct Packet emptyPacket = {-1, -1, -1, 0};
 
-    if (routers[routerID].front >
-        routers[routerID].rear) {
+    if (routers[routerID].front > routers[routerID].rear) {
 
         return emptyPacket;
     }
@@ -266,12 +227,6 @@ struct Packet Dequeue_Packet(int routerID) {
 
     return p;
 }
-
-
-/* =========================================
-   CREATE PACKET
-   ========================================= */
-
 void Creating_Packet() {
 
     struct Packet p;
@@ -299,10 +254,7 @@ void Creating_Packet() {
     printf("Enter packet size: ");
     scanf("%d", &p.size);
 
-    if (p.source < 0 ||
-        p.source >= Router_Count ||
-        p.destination < 0 ||
-        p.destination >= Router_Count) {
+    if (p.source < 0 || p.source >= Router_Count ||  p.destination < 0 ||  p.destination >= Router_Count) {
 
         printf("Invalid router ID.\n");
         return;
@@ -331,13 +283,7 @@ void Creating_Packet() {
     }
 }
 
-
-/* =========================================
-   FIND MINIMUM FOR DIJKSTRA
-   ========================================= */
-
-int Find_Minimum(int distance[],
-                 int visited[]) {
+int Find_Minimum(int distance[], int visited[]) {
 
     int minimum = INF;
 
@@ -357,15 +303,7 @@ int Find_Minimum(int distance[],
     return position;
 }
 
-
-/* =========================================
-   DIJKSTRA ALGORITHM
-   ========================================= */
-
-void Dijkstra(int source,
-              int destination,
-              int parent[],
-              int distance[]) {
+void Dijkstra(int source,  int destination, int parent[], int distance[]) {
 
     int visited[MAX_ROUTERS];
 
@@ -380,12 +318,9 @@ void Dijkstra(int source,
 
     distance[source] = 0;
 
-    for (int step = 0;
-         step < Router_Count;
-         step++) {
+    for (int step = 0; step < Router_Count; step++) {
 
-        int current =
-            Find_Minimum(distance, visited);
+        int current = Find_Minimum(distance, visited);
 
         if (current == -1)
             break;
@@ -399,9 +334,7 @@ void Dijkstra(int source,
             if (Network[current][next] != -1 &&
                 visited[next] == 0) {
 
-                int newDistance =
-                    distance[current] +
-                    Network[current][next];
+                int newDistance =  distance[current] +  Network[current][next];
 
                 if (newDistance < distance[next]) {
 
@@ -414,14 +347,7 @@ void Dijkstra(int source,
     }
 }
 
-
-/* =========================================
-   DISPLAY PATH
-   ========================================= */
-
-void Display_Path(int source,
-                  int destination,
-                  int parent[]) {
+void Display_Path(int source,  int destination, int parent[]) {
 
     int path[MAX_ROUTERS];
 
@@ -449,23 +375,14 @@ void Display_Path(int source,
 
     printf("\nShortest path: ");
 
-    for (int i = count - 1;
-         i >= 0;
-         i--) {
+    for (int i = count - 1;  i >= 0; i--) {
 
-        printf("%c",
-               routers[path[i]].name);
+        printf("%c", routers[path[i]].name);
 
         if (i != 0)
             printf(" -> ");
     }
 }
-
-
-/* =========================================
-   ROUTE PACKET
-   ========================================= */
-
 void Route_Packet() {
 
     int packetID;
@@ -477,54 +394,33 @@ void Route_Packet() {
     printf("\nEnter packet ID: ");
     scanf("%d", &packetID);
 
-    if (packetID <= 0 ||
-        packetID > Packet_Count) {
+    if (packetID <= 0 || packetID > Packet_Count) {
 
         printf("Invalid packet ID.\n");
         return;
     }
 
-    struct Packet p =
-        packetList[packetID - 1];
+    struct Packet p =  packetList[packetID - 1];
 
-    Dijkstra(
-        p.source,
-        p.destination,
-        parent,
-        distance
-    );
+    Dijkstra( p.source,p.destination, parent, distance );
 
     if (distance[p.destination] == INF) {
 
         printf("\nPacket cannot be delivered.");
 
-        printf("\nNo path between %c and %c.\n",
-               routers[p.source].name,
-               routers[p.destination].name);
+        printf("\nNo path between %c and %c.\n", routers[p.source].name,  routers[p.destination].name);
 
         return;
     }
 
-    Display_Path(
-        p.source,
-        p.destination,
-        parent
-    );
+    Display_Path(  p.source, p.destination, parent );
 
-    printf("\nTotal route cost: %d\n",
-           distance[p.destination]);
+    printf("\nTotal route cost: %d\n",  distance[p.destination]);
 
-    printf("Packet %d delivered.\n",
-           p.id);
+    printf("Packet %d delivered.\n",p.id);
 
     Dequeue_Packet(p.source);
 }
-
-
-/* =========================================
-   DISPLAY QUEUES
-   ========================================= */
-
 void Display_Queues() {
 
     int i, j;
@@ -533,22 +429,16 @@ void Display_Queues() {
 
     for (i = 0; i < Router_Count; i++) {
 
-        printf("\nRouter %c: ",
-               routers[i].name);
+        printf("\nRouter %c: ",  routers[i].name);
 
-        if (routers[i].front >
-            routers[i].rear) {
-
-            printf("Empty");
+        if (routers[i].front > routers[i].rear) {
+             printf("Empty");
         }
         else {
 
-            for (j = routers[i].front;
-                 j <= routers[i].rear;
-                 j++) {
+            for (j = routers[i].front; j <= routers[i].rear; j++) {
 
-                printf("[P%d] ",
-                       routers[i].queue[j].id);
+                printf("[P%d] ", routers[i].queue[j].id);
             }
         }
 
@@ -557,11 +447,9 @@ void Display_Queues() {
 }
 
 
-/* =========================================
-   BASIC CONGESTION CHECK
-   ========================================= */
+/*  BASIC CONGESTION CHECK*/
 
-void Check_Congestion() {
+/*void Check_Congestion() {
 
     int count;
 
@@ -595,7 +483,7 @@ void Check_Congestion() {
 
             printf("NORMAL\n");
     }
-}
+}*/
 
 
 /* =========================================
@@ -612,33 +500,20 @@ void Display_Packets() {
 
     printf("\n--------- PACKETS ---------\n");
 
-    for (int i = 0;
-         i < Packet_Count;
-         i++) {
+    for (int i = 0;  i < Packet_Count; i++) {
 
-        printf("\nPacket ID    : %d",
-               packetList[i].id);
+        printf("\nPacket ID    : %d",  packetList[i].id);
 
-        printf("\nSource       : %c",
-               routers[
-                   packetList[i].source
-               ].name);
+        printf("\nSource   : %c",routers[ packetList[i].source].name);
 
-        printf("\nDestination  : %c",
-               routers[
-                   packetList[i].destination
-               ].name);
+        printf("\nDestination  : %c", routers[ packetList[i].destination].name);
 
-        printf("\nSize         : %d bytes\n",
-               packetList[i].size);
+        printf("\nSize : %d bytes\n", packetList[i].size);
     }
 }
 
-
-/* =========================================
-   GENERATE DATA FOR AI
-   ========================================= */
-
+ //GENERATE DATA FOR AI
+   /*
 void Generate_Traffic_Data() {
 
     FILE *fp;
@@ -682,26 +557,13 @@ void Generate_Traffic_Data() {
 
     printf("\nTraffic data saved to network_data.csv\n");
 }
+*/
 
-
-/* =========================================
-   RUN PYTHON AI
-   ========================================= */
+// RUN PYTHON AI 
 
 void Run_AI_Prediction() {
-
-    Generate_Traffic_Data();
-
-    printf("\nStarting AI congestion prediction...\n");
-
-    system("python prediction.py");
+   // system("python prediction.py");
 }
-
-
-/* =========================================
-   MAIN
-   ========================================= */
-
 int main() {
 
     int choice;
