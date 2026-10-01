@@ -6,8 +6,6 @@
 #define Packets 100
 #define History_Length 5
 
-/* Command used to launch the Python AI module.
-   Windows normally uses "python" (or "py"); Linux/macOS use "python3". */
 #ifdef _WIN32
     #define PYTHON_CMD "python predict_congestion.py"
 #else
@@ -158,8 +156,6 @@ int Enqueue_Packet(int routerID, struct Packet p) {
     return 1;
 }
 
-/* Resets front/rear once the queue drains completely, so a router's
-   buffer can be reused instead of permanently "filling up". */
 struct Packet Dequeue_Packet(int routerID) {
     struct Packet emptyPacket = {-1, -1, -1, 0};
     if(routers[routerID].front > routers[routerID].rear) {
@@ -254,7 +250,6 @@ void Dijkstra(int source, int parent[], int distance[]) {
     }
 }
 
-/* Builds the path as a forward array (source -> ... -> destination). */
 int Build_Path(int source, int destination, int parent[], int path[]) {
     int reverse[Routers];
     int count = 0;
@@ -345,7 +340,6 @@ void Display_Queues() {
     }
 }
 
-/* Records this reading into the router's rolling history. */
 void Record_History(int routerID, int count) {
     int slot = History_Next[routerID];
     Congestion_History[routerID][slot] = count;
@@ -375,10 +369,6 @@ void Check_Congestion() {
     }
 }
 
-/* AI traffic prediction: sends every router's congestion history
-   (oldest -> newest) to predict_congestion.py through a pipe.
-   The Python script prints the predictions itself.
-   Line format sent:  <name> <queue_size> <reading1> ... <readingN>  */
 void Predict_Congestion() {
     if(Router_Count == 0) {
         printf("\nNo routers available.\n");
@@ -450,7 +440,6 @@ int main() {
 
         printf("\n\nEnter your choice: ");
         if(scanf("%d", &choice) != 1) {
-            /* Non-numeric input: clear the buffer to avoid an infinite loop. */
             int c;
             while((c = getchar()) != '\n' && c != EOF);
             if(c == EOF) return 0;
